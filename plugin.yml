@@ -1,0 +1,9 @@
+name: VCKOH
+main: com.SinfulPixel.VCKOH.VCKOH
+version: 1.0
+description: King Of The Hill Plugin for VCGAMING.NET
+author: Min3CraftDud3
+website: http://www.SinfulPixel.com
+commands:
+  test:
+    description: "tests"
