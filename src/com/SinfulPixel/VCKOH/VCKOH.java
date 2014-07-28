@@ -55,6 +55,8 @@ public class VCKOH extends JavaPlugin {
         return false;
     }
     private void setupConfig(FileConfiguration config) throws IOException{
+    	String[] times = {"00:00","04:00","08:00","12:00","16:00","20:00"};
+    	String[] locs = {"world,-100,100,500","world,100,75,350","world,100,100,100"};
 	    if (!new File(getDataFolder(), "RESET.FILE").exists()) {
 	      new File(getDataFolder(), "RESET.FILE").createNewFile();
 	      config.set("VCKOH.Creator","Min3CraftDud3");
@@ -62,11 +64,8 @@ public class VCKOH extends JavaPlugin {
 	      config.set("VCKOH.Capture_Radius_Blocks", 15);
 	      config.set("VCKOH.Capture_Time_Mins", 15);	
 	      config.set("VCKOH.Game_TimeOut_Hrs", 1);
-	      config.set("Times.0","00:00");
-	      config.set("Locations.0.World","world");
-	      config.set("Locations.0.X","100.0");
-	      config.set("Locations.0.Y","100.0");
-	      config.set("Locations.0.Z","100.0");
+	      config.set("VCKOH.Times",times);
+	      config.set("VCKOH.Locations",locs);
 	      saveConfig();
 	     }
 	  }
