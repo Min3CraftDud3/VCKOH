@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component inherit-compiler-output="true" inheritJdk="true">
-	<output-test url="file://$MODULE_DIR$/out/test/VCKOH"/>
-	<exclude-output/>
-	<contentEntry url="file://$MODULE_DIR$"/>
-	<levels>
-		<level name="bukkit-1.7.9-R0.2-20140515.034156-1" value="project"/>
-	</levels>
-</component>

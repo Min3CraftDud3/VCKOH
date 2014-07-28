@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="VKKOH">
-    <output-path>$PROJECT_DIR$/out/artifacts/VKKOH</output-path>
-    <root id="archive" name="VKKOH.jar">
-      <element id="module-output" name="VCKOH" />
-      <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
-    </root>
-  </artifact>
-</component>
