@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import com.SinfulPixel.VCKOH.VCKOH;
@@ -15,32 +17,10 @@ public class GameManager {
 	static VCKOH plugin;
 	static ArrayList<String> time = new ArrayList<String>();
 	static ArrayList<Location> locations = new ArrayList<Location>();
+	static Boolean started = false;
+	static Random rand = new Random();
 	
 	public GameManager(VCKOH plugin){GameManager.plugin = plugin;}
-	/*public static void cacheTimes(){
-		System.out.println("Caching run times.");
-		for(int i=0;i<500;i++){
-			if(plugin.getConfig().contains("Times."+i)){
-				time.add(plugin.getConfig().getString("Times."+i));	
-				System.out.println("Caching: "+plugin.getConfig().getString("Times"+i));
-			}
-		}
-		System.out.println("Caching run times...Complete.");
-	}
-	public static void cacheLoc(){
-		System.out.println("Caching locations.");
-		for(int i=0;i<500;i++){
-			if (plugin.getConfig().contains("Locations"+i)){
-				World w = Bukkit.getWorld("Locations"+i+".World");
-				double x = plugin.getConfig().getDouble("Locations"+i+".X");
-				double y = plugin.getConfig().getDouble("Locations"+i+".Y");
-				double z = plugin.getConfig().getDouble("Locations"+i+".Z");
-				locations.add(new Location(w,x,y,z));
-				System.out.println("Caching: "+w+x+y+z);
-				}
-			}
-		System.out.println("Caching locations...Complete.");
-	}*/
 	public static void cacheTimes(){
 		System.out.println("Caching run times.");
 		List<String> times = plugin.getConfig().getStringList("VCKOH.Times");
@@ -55,7 +35,7 @@ public class GameManager {
 		List<String> locs = plugin.getConfig().getStringList("VCKOH.Locations");
 		for(String s:locs){
 			String[] t = s.split(",");
-			System.out.println("Caching: "+t);
+			System.out.println("Caching: "+t[0]+","+t[1]+","+t[2]+","+t[3]);
 			locations.add(new Location(Bukkit.getWorld(t[0]),Double.parseDouble(t[1]),Double.parseDouble(t[2]),Double.parseDouble(t[3])));
 		}
 		System.out.println("Caching locations...Complete.");
@@ -64,8 +44,13 @@ public class GameManager {
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm");
 		Date date = new Date();
 		//System.out.println(dateFormat.format(date));
-		if(time.contains(dateFormat.format(date).toString())){
+		if(time.contains(dateFormat.format(date).toString())&&started==false){
 			System.out.println("Starting game.");
+			int size = locations.size();
+			Location l = locations.get(rand.nextInt(size));
+			Tasks.createPoint(l);
+			Bukkit.broadcastMessage(ChatColor.GOLD+"King Of The Hill Started at: X:"+l.getX()+" Y:"+l.getY()+" Z:"+l.getZ());
+			started=true;
 		}
 	}
 }
