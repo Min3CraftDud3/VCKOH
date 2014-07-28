@@ -36,6 +36,7 @@ public class Tasks implements Listener {
     public static HashMap<UUID,String> capper = new HashMap<UUID,String>();
     @EventHandler
     public void onObjClick(PlayerInteractEvent e){
+    	if(GameManager.started){
         Player p = e.getPlayer();
         Action a = e.getAction();
         if(a.equals(Action.RIGHT_CLICK_BLOCK) || a.equals(Action.LEFT_CLICK_BLOCK)){
@@ -47,6 +48,7 @@ public class Tasks implements Listener {
             	}
             }
         }
+    	}
     }
     @EventHandler
     public void onBeacon(InventoryOpenEvent e){
@@ -57,9 +59,11 @@ public class Tasks implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
+        if(GameManager.started){
         if(capper.containsKey(p.getUniqueId())){
             capper.remove(p.getUniqueId());
             Bukkit.broadcastMessage(ChatColor.GOLD+"The king has been killed, take control of the hill.");
+        }
         }
     }
     public static void createPoint(Location l){

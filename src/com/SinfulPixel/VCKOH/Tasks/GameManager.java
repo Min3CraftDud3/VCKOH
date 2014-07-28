@@ -15,8 +15,8 @@ import com.SinfulPixel.VCKOH.VCKOH;
 
 public class GameManager {
 	static VCKOH plugin;
-	static ArrayList<String> time = new ArrayList<String>();
-	static ArrayList<Location> locations = new ArrayList<Location>();
+	public static ArrayList<String> time = new ArrayList<String>();
+	public static ArrayList<Location> locations = new ArrayList<Location>();
 	static Boolean started = false;
 	static Random rand = new Random();
 	

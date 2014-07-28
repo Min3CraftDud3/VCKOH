@@ -2,8 +2,13 @@ package com.SinfulPixel.VCKOH;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,6 +26,7 @@ public class VCKOH extends JavaPlugin {
     Tasks t = new Tasks(this);
     GameManager gm = new GameManager(this);
     int i = 0;
+    static String pre = ChatColor.GOLD+"["+ChatColor.LIGHT_PURPLE+"KOH"+ChatColor.GOLD+"]"+ChatColor.RESET;
     public void onEnable(){
     	try {
 		      saveConfig();
@@ -37,20 +43,35 @@ public class VCKOH extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(label.equalsIgnoreCase("test")){
-            if(sender instanceof Player){
-            	if(args.length==0){
-                Tasks.createPoint(((Player) sender).getLocation());
-                sender.sendMessage("Creating Point, Check it out!");
-            	}else if(args.length==1){
-                	Tasks.regenPoint(Tasks.point.get(true));
-                	
-                	sender.sendMessage("Regenning.");
-                }
-            }else{
-                sender.sendMessage("Must be a player to test.");
-                GameManager.checkTime();
-            }
+        if(sender instanceof Player){
+    	Player p = (Player)sender;
+        if(label.equalsIgnoreCase("KOH")){
+        	if(args.length==0){
+        		p.sendMessage(pre+"Usage: /KOH <info/create/times>");
+        	}else if(args.length==1){
+        		if(args[0].equalsIgnoreCase("info")){
+        			p.sendMessage(ChatColor.GOLD+"oOo ____ VenomCraft King of the Hill ____ oOo");
+        			p.sendMessage(ChatColor.GRAY+"Author: Min3CraftDud3");
+        			p.sendMessage(ChatColor.GRAY+"Website: http://www.SinfulPixel.com");
+        			p.sendMessage(ChatColor.GRAY+"Version: Final release 1.3");
+        		}else if(args[0].equalsIgnoreCase("create")){
+        			List<String> locs = new ArrayList<String>();
+        			p.sendMessage(pre+"Point Created at your location.");
+        			GameManager.locations.add(new Location(p.getWorld(),p.getLocation().getX(),p.getLocation().getY(),p.getLocation().getZ()));
+        			for(int i=0;i<GameManager.locations.size();i++){
+        				Location l = GameManager.locations.get(i);
+        				locs.add(l.getWorld().getName()+","+(int)l.getX()+","+(int)l.getY()+","+(int)l.getZ());
+        			}
+        			getConfig().set("VCKOH.Locations", locs);
+        			saveConfig();
+        		}else if(args[0].equalsIgnoreCase("times")){
+        			String time = StringUtils.join(GameManager.time,'|');
+        			p.sendMessage(pre+"Game Start Times: "+time);
+        		}else{
+        			p.sendMessage(pre+"Usage: /KOH <info/create/times>");
+        			}
+        		}
+        	}
         }
         return false;
     }
