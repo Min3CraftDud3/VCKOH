@@ -34,6 +34,7 @@ public class VCKOH extends JavaPlugin {
     public static Inventory win;
     public void onEnable(){
     	try {
+    		  makeDir();
     		  win = getServer().createInventory(null, 9, "KOH Prizes");
     		  GameManager.createItemFile();
 		      saveConfig();
@@ -52,7 +53,13 @@ public class VCKOH extends JavaPlugin {
     	Tasks.regenPoint(Tasks.point.get(true));
     	}
     }
-
+	private void makeDir()throws IOException{
+		File dir = this.getDataFolder();
+		if(!dir.exists()){
+			@SuppressWarnings("unused")
+			boolean res = dir.mkdir();
+		}
+	}
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
