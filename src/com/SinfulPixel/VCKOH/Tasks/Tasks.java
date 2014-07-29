@@ -38,7 +38,7 @@ public class Tasks implements Listener {
     @EventHandler
     public void onObjClick(PlayerInteractEvent e){
     	if(GameManager.started){
-        Player p = e.getPlayer();
+        final Player p = e.getPlayer();
         Action a = e.getAction();
         if(a.equals(Action.RIGHT_CLICK_BLOCK) || a.equals(Action.LEFT_CLICK_BLOCK)){
             Block b = e.getClickedBlock();
@@ -47,13 +47,29 @@ public class Tasks implements Listener {
             		Bukkit.getScheduler().cancelTask(GameManager.onehrtimeout);
                     Bukkit.broadcastMessage(ChatColor.GOLD+p.getName()+" is king of the hill. Kill them!");
                     capper.put(p.getName(),System.currentTimeMillis());
-                    fifteenMin = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new BukkitRunnable(){
+                    fifteenMin = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new BukkitRunnable(){
         				public void run() {
+        					Long time = (System.currentTimeMillis() - capper.get(p.getName()))/1000;
+        					System.out.println(time);
+        					if(time == 60){
+        						//Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 1 minute.");
+        						GameManager.started=false;
+            					Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+p.getName()+" is King Of The Hill.");
+            					regenPoint(point.get(true));
+        					}
+        					if(time == 300){
+        						Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 5 minutes.");
+        					}
+        					if(time == 600){
+        						Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 10 minutes.");
+        					}
+        					if(time == 900){
         					GameManager.started=false;
-        					String name = capper.keySet().toString();
-        					Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+name+" is King Of The Hill.");
+        					Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+p.getName()+" is King Of The Hill.");
+        					regenPoint(point.get(true));
+        					}
         				}
-        			}, 1800L);
+        			}, 0L,20L);
             	}
             }
         }
@@ -82,8 +98,8 @@ public class Tasks implements Listener {
         int z = (int)l.getZ();
         World w = l.getWorld();
         w.getBlockAt(l).setType(Material.BEACON);
-        Location loc = new Location(w,x,y+1,z);
-        bl.add(loc);
+        //Location loc = new Location(w,x,y+1,z);
+        bl.add(l);
         point.put(true,l.getBlock().getLocation());
         for(int x1=x-1;x1<=x+1;x1++){
             for(int z1=z-1;z1<=z+1;z1++){
