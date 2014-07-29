@@ -10,6 +10,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.SinfulPixel.VCKOH.VCKOH;
 
@@ -19,6 +20,7 @@ public class GameManager {
 	public static ArrayList<Location> locations = new ArrayList<Location>();
 	static Boolean started = false;
 	static Random rand = new Random();
+	static int onehrtimeout = 0;
 	
 	public GameManager(VCKOH plugin){GameManager.plugin = plugin;}
 	public static void cacheTimes(){
@@ -49,8 +51,14 @@ public class GameManager {
 			int size = locations.size();
 			Location l = locations.get(rand.nextInt(size));
 			Tasks.createPoint(l);
-			Bukkit.broadcastMessage(ChatColor.GOLD+"King Of The Hill Started at: X:"+l.getX()+" Y:"+l.getY()+" Z:"+l.getZ());
+			Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+"King Of The Hill Started at: X:"+l.getX()+" Y:"+l.getY()+" Z:"+l.getZ());
 			started=true;
+			onehrtimeout = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new BukkitRunnable(){
+				public void run() {
+					started=false;
+					Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+"King Of The Hill Timed Out, Another One Will Begin Shortly.");
+				}
+			}, 7200L);
 		}
 	}
 }

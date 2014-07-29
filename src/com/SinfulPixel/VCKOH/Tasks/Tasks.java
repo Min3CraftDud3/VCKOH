@@ -3,7 +3,6 @@ package com.SinfulPixel.VCKOH.Tasks;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,6 +21,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.SinfulPixel.VCKOH.VCKOH;
 
@@ -33,7 +33,8 @@ public class Tasks implements Listener {
     public Tasks(VCKOH plugin){this.plugin = plugin;}
     public static HashMap<Boolean,Location> point = new HashMap<Boolean,Location>();
     public static ArrayList<Location> bl = new ArrayList<Location>();
-    public static HashMap<UUID,String> capper = new HashMap<UUID,String>();
+    public static HashMap<String,Long> capper = new HashMap<String,Long>();
+    static int fifteenMin =0;
     @EventHandler
     public void onObjClick(PlayerInteractEvent e){
     	if(GameManager.started){
@@ -43,8 +44,16 @@ public class Tasks implements Listener {
             Block b = e.getClickedBlock();
             if(bl.contains(b.getLocation())){
             	if(capper.isEmpty()){
+            		Bukkit.getScheduler().cancelTask(GameManager.onehrtimeout);
                     Bukkit.broadcastMessage(ChatColor.GOLD+p.getName()+" is king of the hill. Kill them!");
-                    capper.put(p.getUniqueId(),p.getName());
+                    capper.put(p.getName(),System.currentTimeMillis());
+                    fifteenMin = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new BukkitRunnable(){
+        				public void run() {
+        					GameManager.started=false;
+        					String name = capper.keySet().toString();
+        					Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+name+" is King Of The Hill.");
+        				}
+        			}, 1800L);
             	}
             }
         }
@@ -63,6 +72,7 @@ public class Tasks implements Listener {
         if(capper.containsKey(p.getUniqueId())){
             capper.remove(p.getUniqueId());
             Bukkit.broadcastMessage(ChatColor.GOLD+"The king has been killed, take control of the hill.");
+            Bukkit.getScheduler().cancelTask(fifteenMin);
         }
         }
     }

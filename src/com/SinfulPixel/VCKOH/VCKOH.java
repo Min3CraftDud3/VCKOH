@@ -26,7 +26,7 @@ public class VCKOH extends JavaPlugin {
     Tasks t = new Tasks(this);
     GameManager gm = new GameManager(this);
     int i = 0;
-    static String pre = ChatColor.GOLD+"["+ChatColor.LIGHT_PURPLE+"KOH"+ChatColor.GOLD+"]"+ChatColor.RESET;
+    public static String pre = ChatColor.GOLD+"["+ChatColor.LIGHT_PURPLE+"KOH"+ChatColor.GOLD+"]"+ChatColor.RESET;
     public void onEnable(){
     	try {
 		      saveConfig();
