@@ -19,6 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.SinfulPixel.VCKOH.Tasks.GUIManager;
 import com.SinfulPixel.VCKOH.Tasks.GameManager;
 import com.SinfulPixel.VCKOH.Tasks.Tasks;
 
@@ -28,24 +29,28 @@ import com.SinfulPixel.VCKOH.Tasks.Tasks;
 public class VCKOH extends JavaPlugin {
     Tasks t = new Tasks(this);
     GameManager gm = new GameManager(this);
+    GUIManager gui = new GUIManager(this);
     int i = 0;
-    public static String pre = ChatColor.GOLD+"["+ChatColor.LIGHT_PURPLE+"KOH"+ChatColor.GOLD+"]"+ChatColor.RESET;
+    public static String pre = ChatColor.GOLD+"["+ChatColor.LIGHT_PURPLE+"KOTH"+ChatColor.GOLD+"]"+ChatColor.RESET;
     public static HashMap<UUID,String> winner = new HashMap<UUID,String>();
     public static Inventory win;
     public void onEnable(){
     	try {
     		  makeDir();
-    		  win = getServer().createInventory(null, 9, "KOH Prizes");
+    		  win = getServer().createInventory(null, 9, "KOTH Prizes");
     		  GameManager.createItemFile();
+    		  GameManager.createCmds();
 		      saveConfig();
 		      setupConfig(getConfig());
 		      saveConfig(); 
 		    } catch (Exception e) {
 		      e.printStackTrace();
 		    }
+    	GameManager.cacheCmds();
     	GameManager.cacheTimes();
 	    GameManager.cacheLoc();
         getServer().getPluginManager().registerEvents(t,this);
+        getServer().getPluginManager().registerEvents(gui, this);
         i = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new BukkitRunnable(){public void run() {GameManager.checkTime();}}, 0L, 60L);
     }
     public void onDisable(){
@@ -64,9 +69,9 @@ public class VCKOH extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
     	Player p = (Player)sender;
-        if(label.equalsIgnoreCase("KOH")){
+        if(label.equalsIgnoreCase("KOTH")){
         	if(args.length==0){
-        		p.sendMessage(pre+"Usage: /KOH <info/create/times>");
+        		p.sendMessage(pre+"Usage: /KOTH <info/create/times/claim>");
         	}else if(args.length==1){
         		if(args[0].equalsIgnoreCase("info")){
         			p.sendMessage(ChatColor.GOLD+"oOo ____ VenomCraft King of the Hill ____ oOo");
@@ -90,12 +95,10 @@ public class VCKOH extends JavaPlugin {
         			p.sendMessage(pre+"Game Start Times: "+time);
         		}else if(args[0].equalsIgnoreCase("claim")){
         			if(winner.containsKey(p.getUniqueId())){
-        				GameManager.popChest(win);
-        				p.openInventory(win);
-        				winner.remove(p.getUniqueId());
-        			}
+        				p.openInventory(GUIManager.classSelect);
+        			}else{p.sendMessage("You need to win to use this command.");}
         		}else{
-        			p.sendMessage(pre+"Usage: /KOH <info/create/times>");
+        			p.sendMessage(pre+"Usage: /KOTH <info/create/times/claim>");
         			}
         		}
         	}
@@ -109,9 +112,6 @@ public class VCKOH extends JavaPlugin {
 	      new File(getDataFolder(), "RESET.FILE").createNewFile();
 	      config.set("VCKOH.Creator","Min3CraftDud3");
 	      config.set("VCKOH.WebSite","http://www.SinfulPixel.com");
-	      config.set("VCKOH.Capture_Radius_Blocks", 15);
-	      config.set("VCKOH.Capture_Time_Mins", 15);	
-	      config.set("VCKOH.Game_TimeOut_Hrs", 1);
 	      config.set("VCKOH.Times",times);
 	      config.set("VCKOH.Locations",locs);
 	      saveConfig();

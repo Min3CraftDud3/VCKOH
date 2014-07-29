@@ -1,0 +1,17 @@
+VCKOH:
+  Creator: Min3CraftDud3
+  WebSite: http://www.SinfulPixel.com
+  Capture_Radius_Blocks: 15
+  Capture_Time_Mins: 15
+  Game_TimeOut_Hrs: 1
+  Times:
+  - 00:00
+  - 04:00
+  - 08:00
+  - '12:00'
+  - '16:00'
+  - '22:26'
+  Locations:
+  - world,274,4,394
+  - world,266,4,393
+  - world,264,4,391

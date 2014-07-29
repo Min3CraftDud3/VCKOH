@@ -43,19 +43,21 @@ public class Tasks implements Listener {
         if(a.equals(Action.RIGHT_CLICK_BLOCK) || a.equals(Action.LEFT_CLICK_BLOCK)){
             Block b = e.getClickedBlock();
             if(bl.contains(b.getLocation())){
+            	final Location ll = b.getLocation();
             	if(capper.isEmpty()){
+            		if(GameManager.started)
             		Bukkit.getScheduler().cancelTask(GameManager.onehrtimeout);
                     Bukkit.broadcastMessage(ChatColor.GOLD+p.getName()+" is king of the hill. Kill them!");
                     capper.put(p.getName(),System.currentTimeMillis());
+                    
                     fifteenMin = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new BukkitRunnable(){
         				public void run() {
+        					try{getNearbyEntities(ll,15);
         					Long time = (System.currentTimeMillis() - capper.get(p.getName()))/1000;
+        					
         					System.out.println(time);
         					if(time == 60){
-        						//Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 1 minute.");
-        						GameManager.started=false;
-            					Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+p.getName()+" is King Of The Hill.");
-            					regenPoint(point.get(true));
+        						Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 1 minute.");	
         					}
         					if(time == 300){
         						Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 5 minutes.");
@@ -64,16 +66,22 @@ public class Tasks implements Listener {
         						Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 10 minutes.");
         					}
         					if(time == 900){
-        					GameManager.started=false;
-        					Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+p.getName()+" is King Of The Hill.");
-        					regenPoint(point.get(true));
+        						GameManager.started=false;
+            					Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+p.getName()+" is King Of The Hill.");
+            					regenPoint(point.get(true));
+            					Bukkit.getScheduler().cancelTask(fifteenMin);
+            					VCKOH.winner.put(p.getUniqueId(), p.getName());
         					}
+        				}catch(Exception e1){}
         				}
-        			}, 0L,20L);
+                    }
+        			, 0L,20L);
+                    
             	}
             }
         }
-    	}
+        }
+    	
     }
     @EventHandler
     public void onBeacon(InventoryOpenEvent e){
@@ -85,10 +93,11 @@ public class Tasks implements Listener {
     public void onDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
         if(GameManager.started){
-        if(capper.containsKey(p.getUniqueId())){
-            capper.remove(p.getUniqueId());
+        if(capper.containsKey(p.getName())){
+        	Bukkit.getScheduler().cancelTask(fifteenMin);
+            capper.remove(p.getName());
             Bukkit.broadcastMessage(ChatColor.GOLD+"The king has been killed, take control of the hill.");
-            Bukkit.getScheduler().cancelTask(fifteenMin);
+            
         }
         }
     }
@@ -148,8 +157,17 @@ public class Tasks implements Listener {
 	public static List<Entity> getNearbyEntities(Location where, int range) {
 		List<Entity> found = new ArrayList<Entity>();
 		for (Entity entity : where.getWorld().getEntities()) {
-			if (isInBorder(where, entity.getLocation(), range)) {
+			if (!isInBorder(where, entity.getLocation(), range)) {
 				found.add(entity);
+				if(entity instanceof Player){
+					Player p = (Player)entity;
+					System.out.println(p.getName());
+					if(capper.containsKey(p.getName())){
+						Bukkit.getScheduler().cancelTask(fifteenMin);
+			            capper.remove(p.getName());
+			            Bukkit.broadcastMessage(ChatColor.GOLD+"The king has left the hill, take control of the hill.");  
+			        }
+				}
 			}
 		}
 		return found;

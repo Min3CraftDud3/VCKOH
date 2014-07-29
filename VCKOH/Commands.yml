@@ -1,0 +1,7 @@
+Commands:
+  Kit:
+  - kit tools %player%
+  - kit dtools %player%
+  Key:
+  - lootchest give %player% Legendary 5
+  - lootchest give %player% Rare 10

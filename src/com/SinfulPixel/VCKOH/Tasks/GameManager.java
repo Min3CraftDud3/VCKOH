@@ -78,13 +78,12 @@ public class GameManager {
 			File itemFile = new File(plugin.getDataFolder() + File.separator+ "Items.yml");
 			if (itemFile.exists()) {
 				FileConfiguration ic = YamlConfiguration.loadConfiguration(itemFile);
-				int chestRand = rand.nextInt(4);
+				int chestRand = rand.nextInt(3)+1;
 				int ri = rand.nextInt(ic.getInt("Items.Amount"));
 				for (int j = 0; j < chestRand; j++) {
 					ItemStack is = new ItemStack(Material.getMaterial(ic.getString("Items." + ri + ".Item")), 1);
 					if (ic.contains("Items." +  ri + ".Enchantment")) {
-						for (int k = 0; k < ic.getConfigurationSection("Items." +  ri+ ".Enchantment")
-								.getKeys(false).size(); k++) {
+						for (int k = 0; k < ic.getConfigurationSection("Items." +  ri+ ".Enchantment").getKeys(false).size(); k++) {
 							is.addUnsafeEnchantment(Enchantment.getByName(ic.getString("Items."+ ri + ".Enchantment."+ k)), rand.nextInt(3) + 1);
 						}
 					}
@@ -103,7 +102,7 @@ public class GameManager {
 		File itemFile = new File(plugin.getDataFolder()+File.separator+"Items.yml");
 		if(!itemFile.exists()){
 			itemFile.createNewFile();
-			System.out.println("[LOOTCHEST]: Creating Item Config.....");
+			System.out.println("[VCKOH]: Creating Item Config.....");
 		    FileConfiguration fc = YamlConfiguration.loadConfiguration(itemFile);
 		    fc.set("Items.Amount", 2);
 		    fc.set("Items.0.Item", "DIAMOND_SWORD");
@@ -111,7 +110,41 @@ public class GameManager {
 		    fc.set("Items.1.Item", "DIAMOND_SWORD");
 		    fc.set("Items.1.Enchantment.0", "DAMAGE_ALL");
 		    fc.save(itemFile);
-			System.out.println("[LOOTCHEST]: Creating Item Config.....COMPLETE");
+			System.out.println("[VCKOH]: Creating Item Config.....COMPLETE");
+		}
+	}
+	public static void createCmds() throws IOException{
+		List<String> defKit = new ArrayList<String>();
+		defKit.add("kit tools %player%");
+		defKit.add("kit dtools %player%");
+		List<String> defKey = new ArrayList<String>();
+		defKey.add("lootchest give %player% Legendary 5");
+		defKey.add("lootchest give %player% Rare 10");
+		File cmdFile = new File(plugin.getDataFolder()+File.separator+"Commands.yml");
+		if(!cmdFile.exists()){
+			cmdFile.createNewFile();
+			System.out.println("[VCKOH]: Creating Command Config.....");
+		    FileConfiguration fc = YamlConfiguration.loadConfiguration(cmdFile);
+		    fc.set("Commands.Kit", defKit);
+		    fc.set("Commands.Key", defKey);
+		    fc.save(cmdFile);
+		    System.out.println("[VCKOH]: Creating Command Config.....COMPLETE");
+		}
+	}
+	public static void cacheCmds(){
+		File cmdFile = new File(plugin.getDataFolder()+File.separator+"Commands.yml");
+		if(cmdFile.exists()){
+			System.out.println("[VCKOH] Caching Commands:");
+		    FileConfiguration fc = YamlConfiguration.loadConfiguration(cmdFile);
+			for(String s : fc.getStringList("Commands.Kit")){
+				GUIManager.kitCmds.add(s);
+				System.out.println("[VCKOH] Caching Commands: [KIT]"+s);
+			}
+			for(String s : fc.getStringList("Commands.Key")){
+				GUIManager.lkCmds.add(s);
+				System.out.println("[VCKOH] Caching Commands: [KEY]"+s);
+			}
+			System.out.println("[VCKOH] Caching Commands: DONE!");
 		}
 	}
 }

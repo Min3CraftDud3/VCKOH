@@ -5,5 +5,5 @@ description: King Of The Hill Plugin for VCGAMING.NET
 author: Min3CraftDud3
 website: http://www.SinfulPixel.com
 commands:
-  KOH:
+  KOTH:
     description: "Base Command"
