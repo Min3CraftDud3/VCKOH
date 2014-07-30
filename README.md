@@ -15,6 +15,6 @@ Permissions:
 * VCKOH.Reload - Reloads all configs.
 
 Installation:
-* Drop into plugin directory, restart server TWICE.
+* Drop into plugin directory, restart server type /koth reload
 * Recommended to create a point then delete the default values for a point
 * enjoy the plugin
