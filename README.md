@@ -7,7 +7,8 @@ Commands:
 * koth info = shows plugin info
 * koth create = creates a point 
 * koth times = shows the times a game will start
-* koth claim = brings up prizes page.
+* koth claim = brings up prizes page
+* koth reload = reloads all configs
 
 Installation:
 * Drop into plugin directory, restart server TWICE.
