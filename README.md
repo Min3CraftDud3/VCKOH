@@ -10,6 +10,10 @@ Commands:
 * koth claim = brings up prizes page
 * koth reload = reloads all configs
 
+Permissions:
+* VCKOH.Create - Allows Users to Create Points
+* VCKOH.Reload - Reloads all configs.
+
 Installation:
 * Drop into plugin directory, restart server TWICE.
 * Recommended to create a point then delete the default values for a point
