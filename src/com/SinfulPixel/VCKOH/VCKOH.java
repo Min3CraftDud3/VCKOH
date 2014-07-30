@@ -93,6 +93,15 @@ public class VCKOH extends JavaPlugin {
         		}else if(args[0].equalsIgnoreCase("times")){
         			String time = StringUtils.join(GameManager.time,'|');
         			p.sendMessage(pre+"Game Start Times: "+time);
+        		}else if(args[0].equalsIgnoreCase("reload")){
+        			if(p.hasPermission("VCKOH.Reload")){
+        			try{
+        				GameManager.cacheCmds();
+        		    	GameManager.cacheTimes();
+        			    GameManager.cacheLoc();
+        			}catch(Exception i){}
+        			p.sendMessage(pre+"Reloaded all configs.");
+        			}
         		}else if(args[0].equalsIgnoreCase("claim")){
         			if(winner.containsKey(p.getUniqueId())){
         				p.openInventory(GUIManager.classSelect);
