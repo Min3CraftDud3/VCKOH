@@ -54,16 +54,14 @@ public class Tasks implements Listener {
         				public void run() {
         					try{getNearbyEntities(ll,15);
         					Long time = (System.currentTimeMillis() - capper.get(p.getName()))/1000;
-        					
-        					System.out.println(time);
         					if(time == 60){
-        						Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 1 minute.");	
+        						Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+p.getName()+" Has held the hill for 1 minute.");	
         					}
         					if(time == 300){
-        						Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 5 minutes.");
+        						Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+p.getName()+" Has held the hill for 5 minutes.");
         					}
         					if(time == 600){
-        						Bukkit.broadcastMessage(VCKOH.pre+p.getName()+" Has held the hill for 10 minutes.");
+        						Bukkit.broadcastMessage(VCKOH.pre+ChatColor.GOLD+p.getName()+" Has held the hill for 10 minutes.");
         					}
         					if(time == 900){
         						GameManager.started=false;
