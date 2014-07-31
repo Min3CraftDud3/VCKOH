@@ -161,7 +161,6 @@ public class Tasks implements Listener {
 				found.add(entity);
 				if(entity instanceof Player){
 					Player p = (Player)entity;
-					System.out.println(p.getName());
 					if(capper.containsKey(p.getName())){
 						Bukkit.getScheduler().cancelTask(fifteenMin);
 			            capper.remove(p.getName());
