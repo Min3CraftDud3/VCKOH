@@ -46,7 +46,7 @@ public class Tasks implements Listener {
             	final Location ll = b.getLocation();
             	if(capper.isEmpty()){
             		if(GameManager.started)
-            		Bukkit.getScheduler().cancelTask(GameManager.onehrtimeout);
+            		//Bukkit.getScheduler().cancelTask(GameManager.onehrtimeout);
                     Bukkit.broadcastMessage(ChatColor.GOLD+p.getName()+" is king of the hill. Kill them!");
                     capper.put(p.getName(),System.currentTimeMillis());
                     

@@ -56,7 +56,6 @@ public class GameManager {
 		Date date = new Date();
 		//System.out.println(dateFormat.format(date));
 		if(time.contains(dateFormat.format(date).toString())&&started==false){
-			System.out.println("Starting game.");
 			int size = locations.size();
 			Location l = locations.get(rand.nextInt(size));
 			Tasks.createPoint(l);
